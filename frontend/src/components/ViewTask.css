@@ -1,0 +1,21 @@
+.view-task-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.view-task-container h2 {
+  margin-bottom: 20px;
+}
+
+.task-detail {
+  margin-bottom: 16px;
+}
+
+.task-detail strong {
+  font-weight: bold;
+}
+
+.task-detail span {
+  color: #666;
+}
