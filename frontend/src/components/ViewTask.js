@@ -5,7 +5,7 @@ import './ViewTask.css';
 
 const ViewTask = () => {
   const { id } = useParams();
-  const [task, setTask] = useState({ title: '', description: '', createdAt: '', priority: '', dueDate: '' });
+  const [task, setTask] = useState({ title: '', description: '', createdAt: '', priority: '', dueDate: '', completed: false });
 
   useEffect(() => {
     fetchTask();
@@ -37,6 +37,9 @@ const ViewTask = () => {
       </div>
       <div className="task-detail">
         <strong>Created At:</strong> <span>{new Date(task.createdAt).toLocaleString()}</span>
+      </div>
+      <div className="task-detail">
+        <strong>Status:</strong> <span>{task.completed ? 'Completed' : 'Incomplete'}</span>
       </div>
     </div>
   );

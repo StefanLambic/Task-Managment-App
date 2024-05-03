@@ -20,10 +20,6 @@ const TaskList = () => {
     }
   };
 
-  const handleDelete = async (taskId) => {
-    setTasks(tasks.filter(task => task._id !== taskId));
-  };
-
   return (
     <div className="task-list">
       <h1>Task List</h1>
@@ -38,14 +34,21 @@ const TaskList = () => {
               <div className="task-details">
                 <div className="task-date">Due Date: {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'Not specified'}</div>
                 <div className="task-priority">Priority: {task.priority}</div>
+                <div className="task-completed task-status">
+                  Status: {task.completed ? 'Completed' : 'Incomplete'}
+                </div>
                 <Link to={`/task/${task._id}/edit`} className=" button edit-btn">Edit</Link>
                 <Link to={`/task/${task._id}`} className=" button view-btn">View</Link>
-                <DeleteTask taskId={task._id} onDelete={handleDelete} className="button delete-btn" />
+                <DeleteTask taskId={task._id} onDelete={fetchTasks} className="button delete-btn" />
               </div>
             </li>
           ))}
         </ul>
       )}
+      {}
+      <div className="add-new-task-button">
+        <Link to="/addTask" className="button add-new-task-btn">Add New Task</Link>
+      </div>
     </div>
   );
 };

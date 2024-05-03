@@ -39,12 +39,22 @@ router.post('/', async (req, res) => {
 // Update a task
 router.put('/:id', getTask, async (req, res) => {
     try {
-        const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const { title, description, dueDate, priority, completed } = req.body;
+    
+        res.task.title = title;
+        res.task.description = description;
+        res.task.dueDate = dueDate;
+        res.task.priority = priority;
+        res.task.completed = completed;
+    
+        const updatedTask = await res.task.save();
+
         res.json(updatedTask);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
 });
+
 
 // Delete a task
 router.delete('/:id', getTask, async (req, res) => {

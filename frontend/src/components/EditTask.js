@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import './EditTask.css'; 
+import './EditTask.css';
 
-const EditTask = () => {
+const EditTask = ({ fetchTasks }) => {
   const { id } = useParams();
-  const [task, setTask] = useState({ title: '', description: '', dueDate: '', priority: '' });
+  const [task, setTask] = useState({ title: '', description: '', dueDate: '', priority: '', completed: false });
   const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     fetchTask();
-  }, []); 
+  }, []);
 
   const fetchTask = async () => {
     try {
@@ -25,24 +25,30 @@ const EditTask = () => {
     setTask({ ...task, [e.target.name]: e.target.value });
   };
 
+  const handleCheckboxChange = () => {
+    setTask({ ...task, completed: !task.completed });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const formattedDueDate = task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : '';
-  
+
     try {
       const updatedTask = {
         ...task,
         dueDate: formattedDueDate
       };
-  
+
       await axios.put(`http://localhost:5000/api/tasks/${id}`, updatedTask);
-      
+
       setNotification('Task updated successfully!');
-      
+
       setTimeout(() => {
         setNotification(null);
       }, 3000);
+
+      fetchTasks();
     } catch (error) {
       console.error('Error updating task:', error);
     }
@@ -96,6 +102,17 @@ const EditTask = () => {
             <option value="medium">Medium</option>
             <option value="low">Low</option>
           </select>
+        </div>
+        <div>
+          <label htmlFor="completed">Status:</label>
+          <span>{task.completed ? 'Completed' : 'Incomplete'}</span>
+          <input
+            type="checkbox"
+            id="completed"
+            name="completed"
+            checked={task.completed}
+            onChange={handleCheckboxChange}
+          />
         </div>
         <button type="submit">Update Task</button>
       </form>
