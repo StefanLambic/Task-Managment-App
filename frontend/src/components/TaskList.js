@@ -6,6 +6,7 @@ import './TaskList.css';
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetchTasks();
@@ -20,14 +21,30 @@ const TaskList = () => {
     }
   };
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredTasks = tasks.filter(task => {
+    return task.title.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
   return (
     <div className="task-list">
-      <h1>Task List</h1>
-      {tasks.length === 0 ? (
-        <p className='empty-list'>There's no tasks at the moment :( <Link to="/addTask">Add some?</Link></p>
+  <div className="task-texts">
+      <h1>Number of tasks: {tasks.length}</h1> 
+      <input
+        type="text"
+        placeholder="Search tasks"
+        value={searchQuery}
+        onChange={handleSearchChange}
+      />
+      </div>
+      {filteredTasks.length === 0 ? (
+        <p className='empty-list'>No tasks found. <Link to="/addTask">Add some?</Link></p>
       ) : (
         <ul>
-          {tasks.map(task => (
+          {filteredTasks.map(task => (
             <li key={task._id} className="task-item">
               <div className="task-title">{task.title}</div>
               <div className="task-description">{task.description}</div>
@@ -45,7 +62,6 @@ const TaskList = () => {
           ))}
         </ul>
       )}
-      {}
       <div className="add-new-task-button">
         <Link to="/addTask" className="button add-new-task-btn">Add New Task</Link>
       </div>

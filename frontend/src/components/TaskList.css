@@ -17,10 +17,10 @@
   margin-bottom: 10px;
 }
 
-.task-list h1 {
+.task-list h1, h2 {
   font-size: 30px;
-  margin-bottom: 25px;
   margin-left: 50px;
+  margin-right: 50px;
 }
 
 .task-description {
@@ -100,4 +100,9 @@
 
 .add-new-task-btn:hover {
   background-color: #2980b9;
+}
+.task-texts {
+  display: flex;
+  align-items: center;
+  justify-content: left;
 }
